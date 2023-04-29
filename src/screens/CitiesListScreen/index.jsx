@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { View, StyleSheet, Pressable, FlatList } from "react-native";
+import { View, StyleSheet, Pressable, FlatList, Text } from "react-native";
 
 import { WeatherContext } from "../../store/context/weatherContext";
 import WeatherListCard from "./WeatherListCard";
@@ -15,18 +15,33 @@ const CitiesListScreen = ({ route, navigation }) => {
   };
 
   useEffect(() => {
-    addWeatherData(cityValues);
+    if (cityValues) {
+      addWeatherData(cityValues);
+    }
   }, [cityValues]);
 
   return (
     <View style={styles.container}>
-      <FlatList
-        data={weatherData}
-        renderItem={({ item, index }) => (
-          <WeatherListCard item={item} index={index} />
-        )}
-        keyExtractor={(item) => item.id}
-      />
+      {weatherData.length > 0 ? (
+        <FlatList
+          data={weatherData}
+          renderItem={({ item, index }) => <WeatherListCard item={item} index={index} />}
+          keyExtractor={(item) => item.id}
+        />
+      ) : (
+        <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+          <Text
+            style={{
+              fontSize: 28,
+              color: "#91A5B0",
+              fontFamily: "Dosis_500Medium",
+              textAlign: "center",
+            }}
+          >
+            No hay elementos para mostrar
+          </Text>
+        </View>
+      )}
       <View style={{ alignItems: "center", marginVertical: 15 }}>
         <Pressable onPress={addCity}>
           <View style={styles.plusButton}>

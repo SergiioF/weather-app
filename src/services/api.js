@@ -32,7 +32,6 @@ export async function fetchCityData(param, signal) {
       }
     );
     return response.data; //devolverá los datos del response en lugar de la respuesta completa. Debo hacer el return para que sea visible el resultado en la otra funcion donde se utiliza
-    // console.log(response.data);
   } catch (error) {
     if (axios.isCancel(error)) {
       console.log("Request canceled", error.message);
@@ -47,20 +46,17 @@ export async function fetchCityData(param, signal) {
 export async function fetchWeatherData(lat, lon) {
   const url = `${WEATHER_MAP_API_URL}lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}`;
   const response = await axios.get(url);
-  console.log(response.data, "RESPONSE FROM API CURRENT WEATHER");
   return response.data;
 }
 
 export async function fetchWeatherHourly(lat, lon) {
   const url = `${FORECAST_HOURLY_MAP_API_URL}lat=${lat}&lon=${lon}&exclude=minutely&appid=${WEATHER_API_KEY}`;
   const response = await axios.get(url);
-  // console.log(response.data, "RESPONSE FROM API HOURLY WEATHER");
   return response.data;
 }
 
 export async function fetchForecastData(lat, lon) {
   const url = `${FORECAST_MAP_API_URL}lat=${lat}&lon=${lon}&cnt=40&appid=${WEATHER_API_KEY}`;
-  console.log(url);
   const response = await axios.get(url);
   return response.data;
 }

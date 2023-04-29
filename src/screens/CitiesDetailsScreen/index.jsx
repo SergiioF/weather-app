@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  FlatList,
-  ActivityIndicator,
-} from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity, FlatList, ActivityIndicator } from "react-native";
 import { Feather, Entypo } from "@expo/vector-icons";
 
 import { fetchWeatherHourly } from "../../services/api";
@@ -32,7 +24,6 @@ const CitiesDetailsScreen = ({ route }) => {
 
   useEffect(() => {
     fetchWeatherPerHourly();
-    console.log(hourlyWeather);
   }, []);
 
   return (
@@ -70,8 +61,7 @@ const CitiesDetailsScreen = ({ route }) => {
             textAlignVertical: "center",
           }}
         >
-          {cityValues.weather[0].description.charAt(0).toUpperCase() +
-            cityValues.weather[0].description.slice(1)}
+          {cityValues.weather[0].description.charAt(0).toUpperCase() + cityValues.weather[0].description.slice(1)}
         </Text>
       </View>
       <View
@@ -153,6 +143,7 @@ const CitiesDetailsScreen = ({ route }) => {
           alignItems: "center",
           justifyContent: "center",
           marginTop: 10,
+          flexDirection: "row",
         }}
       >
         <Text
@@ -163,8 +154,19 @@ const CitiesDetailsScreen = ({ route }) => {
             textAlignVertical: "center",
           }}
         >
-          Min: {Math.round(cityValues.main.temp_min)}°C Max:{" "}
-          {Math.round(cityValues.main.temp_max)}°C
+          Min: {Math.round(cityValues.main.temp_min)}°C
+        </Text>
+        <Text
+          style={{
+            fontSize: 14,
+            color: "#91A5B0",
+            fontFamily: "Dosis_500Medium",
+            textAlignVertical: "center",
+            marginLeft: 5,
+          }}
+        >
+          {" "}
+          Max: {Math.round(cityValues.main.temp_max)}°C
         </Text>
       </View>
       <View
@@ -194,12 +196,7 @@ const CitiesDetailsScreen = ({ route }) => {
           >
             View 5 days Forecast
           </Text>
-          <Feather
-            style={{ marginLeft: 10 }}
-            name="arrow-right"
-            size={20}
-            color="#2C4350"
-          />
+          <Feather style={{ marginLeft: 10 }} name="arrow-right" size={20} color="#2C4350" />
         </TouchableOpacity>
       </View>
       <View
@@ -225,7 +222,7 @@ const CitiesDetailsScreen = ({ route }) => {
       >
         {loading && <ActivityIndicator size="large" color={"#062964"} />}
         <FlatList
-          horizontal={false}
+          horizontal={true}
           data={hourlyWeather}
           renderItem={({ item }) => <CurrentWeatherDetails item={item} />}
           keyExtractor={(item) => item.id}

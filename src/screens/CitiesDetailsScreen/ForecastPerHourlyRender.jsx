@@ -5,7 +5,6 @@ import moment from "moment-timezone";
 // Todo este codigo refactorizo gpt-3
 const ForecastPerHourlyRender = ({ item }) => {
   const formatHour = (hour) => {
-    console.log(hour, "hour");
     const unixTimestamp = hour.dt;
     const timezoneName = item.timezone;
     const date = moment.unix(unixTimestamp).tz(timezoneName);

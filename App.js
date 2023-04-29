@@ -17,7 +17,7 @@ export default function App() {
   const [fontsLoaded] = useFonts({
     Dosis_700Bold,
     Dosis_500Medium,
-    Dosis_600SemiBold
+    Dosis_600SemiBold,
   });
   if (!fontsLoaded) {
     return (
@@ -38,25 +38,6 @@ export default function App() {
             }}
           >
             <Stack.Screen
-              name="Select City"
-              component={SearchScreen}
-              options={{
-                headerTitle: () => (
-                  <Text
-                    style={{
-                      color: "#FFFFFF",
-                      fontSize: 25,
-                      fontFamily: "Dosis_700Bold",
-                      lineHeight: 26,
-                      alignItems: "center",
-                    }}
-                  >
-                    SELECT CITY
-                  </Text> // Set the color of the title text
-                ),
-              }}
-            />
-            <Stack.Screen
               name="Cities Screen"
               component={CitiesListScreen}
               options={{
@@ -71,6 +52,25 @@ export default function App() {
                     }}
                   >
                     YOUR CITIES
+                  </Text> // Set the color of the title text
+                ),
+              }}
+            />
+            <Stack.Screen
+              name="Select City"
+              component={SearchScreen}
+              options={{
+                headerTitle: () => (
+                  <Text
+                    style={{
+                      color: "#FFFFFF",
+                      fontSize: 25,
+                      fontFamily: "Dosis_700Bold",
+                      lineHeight: 26,
+                      alignItems: "center",
+                    }}
+                  >
+                    SELECT CITY
                   </Text> // Set the color of the title text
                 ),
               }}

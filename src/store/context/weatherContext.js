@@ -8,8 +8,7 @@ function WeatherProvider({ children }) {
   const [weatherData, setWeatherData] = useState([]);
 
   const addWeatherData = async (cityValues) => {
-    console.log(cityValues, "CONTEXT API")
-    const [lat, lon] = cityValues.value.split(" ");
+    const [lat, lon] = cityValues?.value?.split(" ");
     if (
       cityValues &&
       !weatherData.some((city) => city.lat === lat && city.lon === lon)

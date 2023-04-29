@@ -37,6 +37,7 @@ const SearchButton = ({ navigation }) => {
     setCityName(searchCity);
     if (searchCity.length === 0) {
       setCity([]);
+      setCityName("")
       setEnteredText(false);
     } else {
       await fetchCities(searchCity);
