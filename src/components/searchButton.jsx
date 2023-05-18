@@ -4,20 +4,16 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { fetchCityData } from "../services/api.js";
 import SuggestionsList from "./suggestionsList.jsx";
 
-const controller = new AbortController();
-const signal = controller.signal;
-
-const SearchButton = ({ navigation }) => {
+const SearchButton = () => {
   const [cityName, setCityName] = useState(""); //input
   const [city, setCity] = useState([]);
   const [enteredText, setEnteredText] = useState(false);
 
   const fetchCities = async (enteredCity) => {
     setTimeout(async () => {
-      const controller = new AbortController();
-      const signal = controller.signal;
+
       try {
-        const response = await fetchCityData(enteredCity, signal);
+        const response = await fetchCityData(enteredCity);
         const results = response?.data?.map((city) => ({
           id: `${city.id}`,
           value: `${city.latitude} ${city.longitude}`,

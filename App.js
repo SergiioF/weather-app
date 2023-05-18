@@ -10,6 +10,7 @@ import WeatherProvider from "./src/store/context/weatherContext";
 import SearchScreen from "./src/screens/SearchScreen";
 import CitiesListScreen from "./src/screens/CitiesListScreen";
 import CitiesDetailsScreen from "./src/screens/CitiesDetailsScreen";
+import ForecastPerDay from "./src/screens/CitiesDetailsScreen/ForecastPerDay";
 
 const Stack = createNativeStackNavigator();
 
@@ -85,11 +86,30 @@ export default function App() {
                       color: "#FFFFFF",
                       fontSize: 25,
                       fontFamily: "Dosis_700Bold",
-                      lineHeight: 26,
+                      // lineHeight: 26,
                       alignItems: "center",
                     }}
                   >
                     FORECAST PER HOUR
+                  </Text> // Set the color of the title text
+                ),
+              }}
+            />
+            <Stack.Screen
+              name="Forecast Per Day"
+              component={ForecastPerDay}
+              options={{
+                headerTitle: () => (
+                  <Text
+                    style={{
+                      color: "#FFFFFF",
+                      fontSize: 25,
+                      fontFamily: "Dosis_700Bold",
+                      // lineHeight: 26,
+                      alignItems: "center",
+                    }}
+                  >
+                    FORECAST
                   </Text> // Set the color of the title text
                 ),
               }}

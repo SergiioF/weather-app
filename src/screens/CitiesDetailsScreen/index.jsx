@@ -1,48 +1,60 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity, FlatList, ActivityIndicator } from "react-native";
+import { View, Text, StyleSheet, Image, Pressable, FlatList, ActivityIndicator } from "react-native";
 import { Feather, Entypo } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 import { fetchWeatherHourly } from "../../services/api";
 import ForecastPerHourlyRender from "./ForecastPerHourlyRender";
 import CurrentWeatherDetails from "./CurrentWeatherDetails";
 
 const CitiesDetailsScreen = ({ route }) => {
+  const navigation = useNavigation();
   const [hourlyWeather, setHourlyWeather] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const today = new Date();
+  const options = { weekday: "long", day: "numeric", month: "short" };
+  const formattedDate = today.toLocaleDateString("en-US", options);
   const cityValues = route.params;
   const { lat, lon } = cityValues;
   const fetchWeatherPerHourly = async () => {
     try {
       const response = await fetchWeatherHourly(lat, lon);
-      setHourlyWeather([response]);
+      setHourlyWeather(response);
       setLoading(false);
     } catch (error) {
       console.error(error);
     }
   };
 
+  const goToForecastPerDay = async (item) => {
+    const weatherValues = item;
+
+    navigation.navigate("Forecast Per Day", weatherValues);
+  };
+
   useEffect(() => {
     fetchWeatherPerHourly();
   }, []);
-
   return (
     <View style={styles.container}>
       <View
         style={{
           justifyContent: "center",
           alignItems: "center",
-          marginTop: 30,
+          marginTop: 20,
         }}
       >
         <Text
           style={{
-            fontSize: 18,
+            fontSize: 16,
             color: "#2C4350",
             fontFamily: "Dosis_500Medium",
             textAlignVertical: "center",
           }}
-        ></Text>
+        >
+          {formattedDate}
+        </Text>
         <Text
           style={{
             fontSize: 35,
@@ -165,7 +177,6 @@ const CitiesDetailsScreen = ({ route }) => {
             marginLeft: 5,
           }}
         >
-          {" "}
           Max: {Math.round(cityValues.main.temp_max)}°C
         </Text>
       </View>
@@ -175,7 +186,8 @@ const CitiesDetailsScreen = ({ route }) => {
           marginTop: 20,
         }}
       >
-        <TouchableOpacity
+        <Pressable
+          onPress={() => goToForecastPerDay(hourlyWeather)}
           style={{
             backgroundColor: "white",
             borderRadius: 50,
@@ -197,7 +209,7 @@ const CitiesDetailsScreen = ({ route }) => {
             View 5 days Forecast
           </Text>
           <Feather style={{ marginLeft: 10 }} name="arrow-right" size={20} color="#2C4350" />
-        </TouchableOpacity>
+        </Pressable>
       </View>
       <View
         style={{
@@ -206,14 +218,7 @@ const CitiesDetailsScreen = ({ route }) => {
         }}
       >
         {loading && <ActivityIndicator size="large" color={"#062964"} />}
-        {hourlyWeather && (
-          <FlatList
-            horizontal={false}
-            data={hourlyWeather}
-            renderItem={({ item }) => <ForecastPerHourlyRender item={item} />}
-            keyExtractor={(item) => item.id}
-          />
-        )}
+        {hourlyWeather && <ForecastPerHourlyRender forecast={hourlyWeather} />}
       </View>
       <View
         style={{
@@ -221,12 +226,13 @@ const CitiesDetailsScreen = ({ route }) => {
         }}
       >
         {loading && <ActivityIndicator size="large" color={"#062964"} />}
-        <FlatList
+        {/* <FlatList
           horizontal={true}
           data={hourlyWeather}
-          renderItem={({ item }) => <CurrentWeatherDetails item={item} />}
+          renderItem={({ item }) => <CurrentWeatherDetails current={item} />}
           keyExtractor={(item) => item.id}
-        />
+        // /> */}
+        <CurrentWeatherDetails currentData={hourlyWeather} />
       </View>
     </View>
   );

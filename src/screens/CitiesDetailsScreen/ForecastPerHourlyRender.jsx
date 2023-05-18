@@ -1,23 +1,18 @@
 import React from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, Image, StyleSheet, FlatList } from "react-native";
 import moment from "moment-timezone";
 
 // Todo este codigo refactorizo gpt-3
-const ForecastPerHourlyRender = ({ item }) => {
+const ForecastPerHourlyRender = ({ forecast }) => {
   const formatHour = (hour) => {
-    const unixTimestamp = hour.dt;
-    const timezoneName = item.timezone;
-    const date = moment.unix(unixTimestamp).tz(timezoneName);
+    const date = moment.unix(hour).tz(forecast.timezone);
     return date.format("h A");
   };
 
-  const renderHour = (hour, index) => {
+  const WeatherHourly = ({ dt, temp, timezone, index, weather }) => {
     if (index % 3 === 0 && index < 18) {
       return (
-        <View
-          style={{ alignItems: "center", justifyContent: "space-evenly" }}
-          key={hour.dt}
-        >
+        <View style={{ alignItems: "center", justifyContent: "space-evenly", padding: 6 }} key={dt}>
           <Text
             style={{
               fontSize: 16,
@@ -26,12 +21,12 @@ const ForecastPerHourlyRender = ({ item }) => {
               textAlignVertical: "center",
             }}
           >
-            {formatHour(hour)}
+            {formatHour(dt)}
           </Text>
           <Image
             style={styles.weatherImage}
             source={{
-              uri: `https://openweathermap.org/img/wn/${hour.weather[0].icon}@2x.png`,
+              uri: `https://openweathermap.org/img/wn/${weather[0].icon}@2x.png`,
             }}
           />
           <Text
@@ -42,7 +37,7 @@ const ForecastPerHourlyRender = ({ item }) => {
               textAlignVertical: "center",
             }}
           >
-            {Math.round(hour.temp)}°C
+            {Math.round(temp)}°C
           </Text>
         </View>
       );
@@ -52,14 +47,24 @@ const ForecastPerHourlyRender = ({ item }) => {
 
   return (
     <View
-      key={item.timezone_offset}
-      style={{
-        alignItems: "center",
-        justifyContent: "space-evenly",
-        flexDirection: "row",
-      }}
+      key={forecast.timezone_offset}
+      style={{ alignItems: "center", justifyContent: "space-evenly"}}
     >
-      {item.hourly.map(renderHour)}
+      {/* {item.hourly.map(renderHour)} */}
+      <FlatList
+        horizontal={true}
+        data={forecast.hourly}
+        renderItem={({ item, index }) => (
+          <WeatherHourly
+            dt={item.dt}
+            temp={item.temp}
+            timezone={forecast.timezone}
+            index={index}
+            weather={item.weather}
+          />
+        )}
+        keyExtractor={(item) => item.id}
+      />
     </View>
   );
 };

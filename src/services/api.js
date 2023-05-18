@@ -2,17 +2,12 @@ import axios from "axios";
 import { WEATHER_MAP_API_KEY } from "@env";
 
 const WEATHER_API_KEY = WEATHER_MAP_API_KEY;
-const WEATHER_MAP_API_URL =
-  "https://api.openweathermap.org/data/2.5/weather?units=metric&";
-const FORECAST_MAP_API_URL =
-  "https://api.openweathermap.org/data/2.5/forecast?units=metric&";
+const WEATHER_MAP_API_URL = "https://api.openweathermap.org/data/2.5/weather?units=metric&";
+const FORECAST_MAP_API_URL = "https://api.openweathermap.org/data/2.5/forecast?units=metric&";
 
-const FORECAST_HOURLY_MAP_API_URL =
-  "https://api.openweathermap.org/data/2.5/onecall?units=metric&";
+const FORECAST_HOURLY_MAP_API_URL = "https://api.openweathermap.org/data/2.5/onecall?units=metric&";
 
-
-const GEO_CITY_API_URL =
-  "https://wft-geo-db.p.rapidapi.com/v1/geo/cities?limit=10";
+const GEO_CITY_API_URL = "https://wft-geo-db.p.rapidapi.com/v1/geo/cities?limit=10";
 const GEO_CITY_API_KEY = "99ab890675msh77d03d8948b9b03p1b3ed1jsnc0ccc5a02289";
 const GEO_CITY_API_HOST = "wft-geo-db.p.rapidapi.com";
 
@@ -23,14 +18,11 @@ const headers = {
 
 export async function fetchCityData(param, signal) {
   try {
-    const response = await axios.get(
-      `${GEO_CITY_API_URL}&namePrefix=${param}`,
-      {
-        headers,
-        signal,
-        timeout: 5000, // 5 seconds timeout
-      }
-    );
+    const response = await axios.get(`${GEO_CITY_API_URL}&namePrefix=${param}`, {
+      headers,
+      signal,
+      timeout: 5000, // 5 seconds timeout
+    });
     return response.data; //devolverá los datos del response en lugar de la respuesta completa. Debo hacer el return para que sea visible el resultado en la otra funcion donde se utiliza
   } catch (error) {
     if (axios.isCancel(error)) {
